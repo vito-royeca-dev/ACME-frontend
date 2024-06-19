@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useCallback } from 'react';
 import { ToastContainer, toast, ToastOptions } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 type AlertType = 'success' | 'error' | 'info' | 'warning';
@@ -13,7 +14,7 @@ const AlertContext = createContext<AlertContextProps | undefined>(undefined);
 export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const showAlert = useCallback((message: string, type: AlertType = 'info', title?: string) => {
     const options: ToastOptions = {
-      position: toast.POSITION.TOP_RIGHT,
+      position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,

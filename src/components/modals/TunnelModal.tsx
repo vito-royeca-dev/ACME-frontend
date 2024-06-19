@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+
 import { Tunnel } from '../../types';
 import GenericModal from './GenericModal';
 import { FormField, ColorPickerField, CheckboxField } from '../formFields';
-import { postTunnel, putTunnel } from '../../lib/apis';
+import { checkRoute, postTunnel, putTunnel } from '../../lib/apis';
+import { useAlert } from '../../context/AlertContext';
 
 interface Props {
   isOpen: boolean;
@@ -16,7 +18,8 @@ const TunnelModal: React.FC<Props> = ({ isOpen, onClose, onSave, tunnelToEdit })
   const { register, handleSubmit, reset, formState: { errors } } = useForm<Tunnel>();
   const [color, setColor] = useState<string>('#ffffff');
   const [isVisible, setIsVisible] = useState<boolean>(false);
-
+  const alert = useAlert();
+  
   useEffect(() => {
     if (tunnelToEdit) {
       reset(tunnelToEdit);
@@ -41,6 +44,13 @@ const TunnelModal: React.FC<Props> = ({ isOpen, onClose, onSave, tunnelToEdit })
   }, [tunnelToEdit, reset]);
 
   const onSubmit: SubmitHandler<Tunnel> = async (data) => {
+    const valid = await checkRoute([data.startLng, data.startLat], [data.endLng, data.endLat]);
+    
+    if (!valid) {
+      alert.showAlert("Invalid Route, choose another route.", "error", "Invalid Info");
+      return;
+    }
+
     data.color = color;
     data.visible = isVisible;
     try {
@@ -49,9 +59,11 @@ const TunnelModal: React.FC<Props> = ({ isOpen, onClose, onSave, tunnelToEdit })
       } else {
         await postTunnel(data);
       }
+      alert.showAlert("Successfully saved!", "success");
       onSave();
     } catch (error) {
       console.error('Error saving tunnel:', error);
+      alert.showAlert("Error saving tunnel:", "error");
     }
   };
 

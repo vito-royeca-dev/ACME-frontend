@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ShowUsers = () => {
   // Sample data for users
   const users = [

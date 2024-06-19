@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { Zone } from '../../types';
 import DataTable from './index';
 import ZoneModal from '../modals/ZoneModal';

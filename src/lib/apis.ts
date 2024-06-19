@@ -2,6 +2,7 @@ import Axios from "axios";
 import { Tunnel, Zone } from "../types";
 import { LoginFormInputs } from "../types";
 import { Dispatch, SetStateAction } from "react";
+import { MAP_PK_TOKEN } from "../constants";
 
 const instance = Axios.create({
     baseURL: 'http://localhost:5000',
@@ -27,10 +28,6 @@ instance.interceptors.request.use(config => {
 });
 
 instance.interceptors.response.use(res => res, err => {
-    // Perform your custom action here as well
-    console.log(err, "!!!!!!!!!!!!!! ");
-    console.log(err.response?.data?.message);
-    
     if (err.response?.data?.message === "Unauthorized: Invalid token") {
         localStorage.removeItem('token');
     }
@@ -98,3 +95,32 @@ export const ProcessedRecords = <F extends Record<string, unknown>, T>(records: 
     })
 }
 
+export const getRoute = async (startCoords: [number, number], endCoords: [number, number]) => {
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${String(startCoords[0])},${String(startCoords[1])};${String(endCoords[0])},${String(endCoords[1])}?geometries=geojson&access_token=${MAP_PK_TOKEN}`;
+  
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+  
+      return json.routes[0]?.geometry?.coordinates;
+    } catch (error) {
+      console.log('Error fetching route:', error);
+      return [];
+    }
+};
+
+export const checkRoute = async (startCoords: [number, number], endCoords: [number, number]) => {
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${String(startCoords[0])},${String(startCoords[1])};${String(endCoords[0])},${String(endCoords[1])}?geometries=geojson&access_token=${MAP_PK_TOKEN}`;
+  
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+        console.log(JSON.stringify(json));
+        
+      return json.code === "Ok";
+    } catch (error) {
+      console.log('Error fetching route:', error);
+      return [];
+    }
+};
+  

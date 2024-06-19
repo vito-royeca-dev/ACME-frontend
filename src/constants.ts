@@ -1,0 +1,1 @@
+export const MAP_PK_TOKEN = "pk.eyJ1IjoibWlrZWthbGUiLCJhIjoiY2x4Z2JsdzZiMTIzbjJrcHdxbDNhdTgzZSJ9.BSu0Xe1lgIgxULBXXQlEBQ";

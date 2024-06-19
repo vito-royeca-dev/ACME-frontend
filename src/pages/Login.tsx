@@ -2,19 +2,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+
 import LoginForm from '../components/forms/LoginForm';
 import AuthLayout from '../components/layouts/AuthLayout';
 import { login } from '../lib/apis';
+
 import { LoginFormInputs } from '../types';
+
+import { useAlert } from '../context/AlertContext';
 
 const Login: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const alert = useAlert();
 
   const handleSubmit = async (data: LoginFormInputs) => {
     try {
       const response = await login(data);
       localStorage.setItem('token', response.data.accessToken);
+      alert.showAlert("Successfully logged in!", "success", "success");
       navigate('/admin');
     } catch (err) {
       setError('Invalid credentials');

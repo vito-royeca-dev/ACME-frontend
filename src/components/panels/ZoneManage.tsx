@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
+
 import { Zone } from '../../types';
 import ZoneModal from '../modals/ZoneModal';
 import { deleteZone, fetchZones } from '../../lib/apis';
+import { useAlert } from '../../context/AlertContext';
 
 const ZoneDataTable: React.FC = () => {
   const [zones, setZones] = useState<Zone[]>([]);
   const [editZone, setEditZone] = useState<Zone | null>(null);
   const [isZoneModalOpen, setIsZoneModalOpen] = useState(false);
+  const alert = useAlert();
 
   useEffect(() => {
     getZones();
@@ -28,7 +31,8 @@ const ZoneDataTable: React.FC = () => {
   const handleDeleteZone = async (id: string) => {
     try {
       await deleteZone(id);
-      getZones();
+      await getZones();
+      alert.showAlert("Successfully deleted!", "success");
     } catch (error) {
       console.error('Error deleting zone:', error);
     }

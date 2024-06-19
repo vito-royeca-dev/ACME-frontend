@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+
 import { Zone } from '../../types';
 import GenericModal from './GenericModal';
 import { FormField, ColorPickerField, CheckboxField } from '../formFields';
 import { postZone, putZone } from '../../lib/apis';
+import { useAlert } from '../../context/AlertContext';
 
 interface Props {
   isOpen: boolean;
@@ -16,6 +18,7 @@ const ZoneModal: React.FC<Props> = ({ isOpen, onClose, onSave, zoneToEdit }) => 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<Zone>();
   const [color, setColor] = useState<string>('#ffffff');
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const alert = useAlert();
 
   useEffect(() => {
     if (zoneToEdit) {
@@ -47,9 +50,11 @@ const ZoneModal: React.FC<Props> = ({ isOpen, onClose, onSave, zoneToEdit }) => 
       } else {
         await postZone(data);
       }
+      alert.showAlert("Successfully saved!", "success");
       onSave();
     } catch (error) {
       console.error('Error saving zone:', error);
+      alert.showAlert("Error saving tunnel:", "error");
     }
   };
 

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
+
 import { Tunnel } from '../../types';
 import TunnelModal from '../modals/TunnelModal';
 import { deleteTunnel, fetchTunnels } from '../../lib/apis';
+import { useAlert } from '../../context/AlertContext';
 
 const TunnelDataTable: React.FC = () => {
   const [tunnels, setTunnels] = useState<Tunnel[]>([]);
   const [editTunnel, setEditTunnel] = useState<Tunnel | null>(null);
   const [isTunnelModalOpen, setIsTunnelModalOpen] = useState(false);
+  const alert = useAlert();
 
   useEffect(() => {
     getTunnels();
@@ -28,7 +31,8 @@ const TunnelDataTable: React.FC = () => {
   const handleDeleteTunnel = async (id: string) => {
     try {
       await deleteTunnel(id);
-      getTunnels();
+      await getTunnels();
+      alert.showAlert("Successfully deleted!", "success");
     } catch (error) {
       console.error('Error deleting tunnel:', error);
     }

@@ -1,14 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import MapboxClient from '@mapbox/mapbox-sdk';
-import directions from '@mapbox/mapbox-sdk/services/directions';
+
 import { Tunnel, Zone } from '../../types';
-import { fetchTunnels, fetchZones } from '../../lib/apis';
+import { fetchTunnels, fetchZones, getRoute } from '../../lib/apis';
+import { createCircle } from '../../utils/mapbox';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWlrZWthbGUiLCJhIjoiY2x4Z2JsdzZiMTIzbjJrcHdxbDNhdTgzZSJ9.BSu0Xe1lgIgxULBXXQlEBQ';
-
-const mapboxClient = MapboxClient({ accessToken: mapboxgl.accessToken });
-const directionsClient = directions(mapboxClient);
 
 export default function App() {
   const mapContainer = useRef(null);
@@ -54,13 +51,10 @@ export default function App() {
 
       // Fetch and add tunnels
       for (const tunnel of tunnels) {
-        if (tunnel.visible) {
-          console.log( [parseFloat(tunnel.startLng), parseFloat(tunnel.startLat)],
-          [parseFloat(tunnel.endLng), parseFloat(tunnel.endLat)], "!!!!!!!!!!!!!!!!!!");
-          
-          const route = await fetchRoute(
-            [parseFloat(tunnel.startLng), parseFloat(tunnel.startLat)],
-            [parseFloat(tunnel.endLng), parseFloat(tunnel.endLat)]
+        if (tunnel.visible) {          
+          const route = await getRoute(
+            [tunnel.startLng, tunnel.startLat],
+            [tunnel.endLng, tunnel.endLat]
           );
 
           map.current.addLayer({
@@ -126,42 +120,6 @@ export default function App() {
       setZoom(map.current.getZoom().toFixed(2));
     });
   }, [tunnels, zones]);
-
-  const fetchRoute = async (start: [number, number], end: [number, number]) => {
-    const response = await directionsClient.getDirections({
-      profile: 'driving',
-      geometries: 'geojson',
-      waypoints: [
-        { coordinates: start },
-        { coordinates: end }
-      ]
-    }).send();
-    console.log(response);
-    const route = response.body.routes[0].geometry.coordinates;
-    return route;
-  };
-
-  const createCircle = (center: [number, number], radius: number) => {
-    const points = 64;
-    const coords = {
-      latitude: center[1],
-      longitude: center[0]
-    };
-    const km = radius / 1000;
-    const ret = [];
-    const distanceX = km / (111.32 * Math.cos(coords.latitude * Math.PI / 180));
-    const distanceY = km / 110.574;
-
-    let theta, x, y;
-    for (let i = 0; i < points; i++) {
-      theta = (i / points) * (2 * Math.PI);
-      x = distanceX * Math.cos(theta);
-      y = distanceY * Math.sin(theta);
-      ret.push([coords.longitude + x, coords.latitude + y]);
-    }
-    ret.push(ret[0]);
-    return ret;
-  };
 
   return (
     <div className='flex flex-col h-full'>
