@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { Tunnel } from '../../types';
+import { Tunnel } from '../../types/dataTypes';
 import GenericModal from './GenericModal';
 import { FormField, ColorPickerField, CheckboxField } from '../formFields';
 import { checkRoute, postTunnel, putTunnel } from '../../lib/apis';

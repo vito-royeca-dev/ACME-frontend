@@ -1,6 +1,6 @@
 import Axios from "axios";
-import { Tunnel, Zone } from "../types";
-import { LoginFormInputs } from "../types";
+import { Tunnel, Zone } from "../types/dataTypes";
+import { LoginFormInputs } from "../types/dataTypes";
 import { Dispatch, SetStateAction } from "react";
 import { MAP_PK_TOKEN } from "../constants";
 
@@ -115,7 +115,6 @@ export const checkRoute = async (startCoords: [number, number], endCoords: [numb
     try {
       const response = await fetch(url);
       const json = await response.json();
-        console.log(JSON.stringify(json));
         
       return json.code === "Ok";
     } catch (error) {

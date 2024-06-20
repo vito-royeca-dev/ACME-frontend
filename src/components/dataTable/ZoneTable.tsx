@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Zone } from '../../types';
+import { Zone } from '../../types/dataTypes';
 import DataTable from './index';
 import ZoneModal from '../modals/ZoneModal';
 import { deleteZone, fetchZones } from '../../lib/apis';

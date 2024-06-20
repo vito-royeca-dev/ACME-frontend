@@ -7,7 +7,7 @@ import LoginForm from '../components/forms/LoginForm';
 import AuthLayout from '../components/layouts/AuthLayout';
 import { login } from '../lib/apis';
 
-import { LoginFormInputs } from '../types';
+import { LoginFormInputs } from '../types/dataTypes';
 
 import { useAlert } from '../context/AlertContext';
 

@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
-import { Tunnel, Zone } from '../../types';
+import { Tunnel, Zone } from '../../types/dataTypes';
 import { fetchTunnels, fetchZones, getRoute } from '../../lib/apis';
 import { createCircle } from '../../utils/mapbox';
 

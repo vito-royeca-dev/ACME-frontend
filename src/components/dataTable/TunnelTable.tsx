@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Tunnel } from '../../types';
+import { Tunnel } from '../../types/dataTypes';
 import DataTable from './index';
 import TunnelModal from '../modals/TunnelModal';
 import { deleteTunnel, fetchTunnels } from '../../lib/apis';
