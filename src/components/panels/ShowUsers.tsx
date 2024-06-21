@@ -6,6 +6,8 @@ import { getUsersByDate } from '../../lib/apis';
 import socket from '../../socket';
 import { CREDIT_UPDATE, LOCATION_UPDATE } from '../../types/eventTypes';
 import 'tailwindcss/tailwind.css'; // Ensure you have Tailwind CSS configured
+import Th from '../dataTable/Th';
+import Td from '../dataTable/Td';
 
 const ShowUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -24,6 +26,8 @@ const ShowUsers = () => {
       credits: number 
     }
   ) => {
+    console.log("update credit");
+
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
         user.userId === _id ? { ...user, userCredits: credits } : user
@@ -40,6 +44,8 @@ const ShowUsers = () => {
       } 
     }
   ) => {
+    console.log("update location");
+    
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
         user.userId === userId ? { ...user, userLocation: location } : user
@@ -80,21 +86,21 @@ const ShowUsers = () => {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Credits</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Distance</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+              <Th text='Name'/>
+              <Th text='Email'/>
+              <Th text='Credits'/>
+              <Th text='Distance'/>
+              <Th text='Location'/>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {users.map((user) => (
               <tr key={user.userId} className="transition-all hover:bg-gray-100">
-                <td className="px-6 py-4 whitespace-nowrap">{user.userName}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{user.userEmail}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{user.userCredits}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{user.totalDistance}</td>
-                <td className="px-6 py-4 whitespace-nowrap">LNG: {user.userLocation.longitude} | LAT: {user.userLocation.latitude}</td>
+                <Td text={user.userName}/>
+                <Td text={user.userEmail}/>
+                <Td text={user.userCredits}/>
+                <Td text={user.totalDistance}/>
+                <Td text={`LNG: ${user.userLocation.longitude.toFixed(2)} | LAT: ${user.userLocation.latitude.toFixed(2)}`}/>
               </tr>
             ))}
           </tbody>
