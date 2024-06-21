@@ -12,6 +12,16 @@ export interface Tunnel {
     visible: boolean;
     credits: number;
 }
+export interface User {
+    _id: string,
+    email: string,
+    location: {
+        longitude: number,
+        latitude: number,
+    },
+    credit: number,
+    distance: number | null,
+}
 
 export interface Zone {
     id: string;

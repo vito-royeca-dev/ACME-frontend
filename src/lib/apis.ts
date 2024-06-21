@@ -1,11 +1,12 @@
-import Axios from "axios";
+import Axios, {AxiosResponse, AxiosError} from "axios";
 import { Tunnel, Zone } from "../types/dataTypes";
 import { LoginFormInputs } from "../types/dataTypes";
 import { Dispatch, SetStateAction } from "react";
-import { MAP_PK_TOKEN } from "../constants";
+
+import { BACKEND_URL, MAP_PK_TOKEN } from "../constants";
 
 const instance = Axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: BACKEND_URL,
 })
 
 // Function to get admin token
@@ -27,12 +28,18 @@ instance.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-instance.interceptors.response.use(res => res, err => {
-    if (err.response?.data?.message === "Unauthorized: Invalid token") {
-        localStorage.removeItem('token');
+instance.interceptors.response.use(
+    (res: AxiosResponse) => {
+        // Handle the successful response here (if needed)
+        return res;
+    },
+    (err: AxiosError) => {
+        if (err?.message === "Unauthorized: Invalid token") {
+            localStorage.removeItem('token');
+        }
+        return Promise.reject(err);
     }
-    return Promise.reject(err);
-});
+);
 
 export const login = async (data: LoginFormInputs) => {
     return await instance.post('/api/admin/login', data);
@@ -123,3 +130,11 @@ export const checkRoute = async (startCoords: [number, number], endCoords: [numb
     }
 };
   
+export const fetchUsers = async (callback: Dispatch<SetStateAction<Tunnel[]>>) => {
+    try {
+      const response = await instance.get('/api/tunnels');
+      callback(ProcessedRecords<{ _id: string }, Tunnel>(response.data));
+    } catch (error) {
+      console.error('Error fetching tunnels:', error);
+    }
+};
