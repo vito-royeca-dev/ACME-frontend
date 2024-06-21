@@ -17,7 +17,7 @@ export interface Zone {
     id: string;
     centerLat: number;
     centerLng: number;
-    radius: string;
+    radius: number;
     color: string;
     message: string;
     visible: boolean;
@@ -27,4 +27,17 @@ export interface Zone {
 export interface LoginFormInputs {
     username: string;
     password: string;
+}
+
+
+export interface User {
+    userId: string;
+    userName: string;
+    userEmail: string;
+    userCredits: number;
+    totalDistance: number;
+    userLocation: {
+        longitude: number,
+        latitude: number
+    }
 }

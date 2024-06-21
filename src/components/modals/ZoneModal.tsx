@@ -30,7 +30,7 @@ const ZoneModal: React.FC<Props> = ({ isOpen, onClose, onSave, zoneToEdit }) => 
         id: '',
         centerLat: 0,
         centerLng: 0,
-        radius: '',
+        radius: 0,
         color: '#ffffff',
         message: '',
         visible: false,
@@ -63,7 +63,7 @@ const ZoneModal: React.FC<Props> = ({ isOpen, onClose, onSave, zoneToEdit }) => 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <FormField id="centerLat" label="Center Latitude" type="number" min={-85} max={85} register={register} errors={errors} requiredMessage="Center Latitude is required" />
         <FormField id="centerLng" label="Center Longitude" type="number" min={-180} max={180} register={register} errors={errors} requiredMessage="Center Longitude is required" />
-        <FormField id="radius" label="Radius" type="text" register={register} errors={errors} requiredMessage="Radius is required" />
+        <FormField id="radius" label="Radius" type="number" register={register} errors={errors} requiredMessage="Radius is required" />
         <ColorPickerField color={color} setColor={setColor} register={register} errors={errors} requiredMessage="Color is required" />
         <FormField id="message" label="Message" type="text" register={register} errors={errors} requiredMessage="Message is required" />
         <FormField id="credits" label="Credits" type="number" register={register} errors={errors} requiredMessage="Credits are required" />

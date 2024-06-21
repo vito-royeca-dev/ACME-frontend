@@ -1,5 +1,5 @@
 import Axios, {AxiosResponse, AxiosError} from "axios";
-import { Tunnel, Zone } from "../types/dataTypes";
+import { Tunnel, User, Zone } from "../types/dataTypes";
 import { LoginFormInputs } from "../types/dataTypes";
 import { Dispatch, SetStateAction } from "react";
 
@@ -40,6 +40,16 @@ instance.interceptors.response.use(
         return Promise.reject(err);
     }
 );
+
+export const getUsersByDate = async (date: string, callback: Dispatch<SetStateAction<User[]>>) => {
+    try {
+        const response = await instance.get(`/api/users/users-by-date/${date}`);
+        callback(response.data);
+    } catch (e) {
+        console.log(e);
+        return [];       
+    }
+}
 
 export const login = async (data: LoginFormInputs) => {
     return await instance.post('/api/admin/login', data);
