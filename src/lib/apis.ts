@@ -1,11 +1,11 @@
-import Axios from "axios";
-import { Tunnel, Zone } from "../types";
-import { LoginFormInputs } from "../types";
 import { Dispatch, SetStateAction } from "react";
-import { MAP_PK_TOKEN } from "../constants";
+import Axios from "axios";
+
+import { Tunnel, Zone, LoginFormInputs } from "../types/types";
+import { BACKEND_URL, MAP_PK_TOKEN } from "../constants";
 
 const instance = Axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: BACKEND_URL,
 })
 
 // Function to get admin token
@@ -27,7 +27,7 @@ instance.interceptors.request.use(config => {
     return Promise.reject(error);
 });
 
-instance.interceptors.response.use(res => res, err => {
+instance.interceptors.response.use((res, err) => {
     if (err.response?.data?.message === "Unauthorized: Invalid token") {
         localStorage.removeItem('token');
     }
@@ -124,3 +124,11 @@ export const checkRoute = async (startCoords: [number, number], endCoords: [numb
     }
 };
   
+export const fetchUsers = async (callback: Dispatch<SetStateAction<Tunnel[]>>) => {
+    try {
+      const response = await instance.get('/api/tunnels');
+      callback(ProcessedRecords<{ _id: string }, Tunnel>(response.data));
+    } catch (error) {
+      console.error('Error fetching tunnels:', error);
+    }
+};

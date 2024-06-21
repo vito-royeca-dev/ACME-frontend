@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 
-import { Zone } from '../../types';
+import { Zone } from '../../types/types';
 import ZoneModal from '../modals/ZoneModal';
 import { deleteZone, fetchZones } from '../../lib/apis';
 import { useAlert } from '../../context/AlertContext';

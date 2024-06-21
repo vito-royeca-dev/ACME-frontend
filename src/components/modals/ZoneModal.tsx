@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { Zone } from '../../types';
+import { Zone } from '../../types/types';
 import GenericModal from './GenericModal';
 import { FormField, ColorPickerField, CheckboxField } from '../formFields';
 import { postZone, putZone } from '../../lib/apis';

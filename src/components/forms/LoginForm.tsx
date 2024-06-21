@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import InputField from '../formFields/login/inputField';
 import ErrorMessage from '../formFields/login/ErrorMessage';
 import SubmitButton from '../formFields/login/SubmitButton';
-import { LoginFormInputs } from '../../types';
+import { LoginFormInputs } from '../../types/types';
 
 interface LoginFormProps {
   onSubmit: (data: LoginFormInputs) => void;

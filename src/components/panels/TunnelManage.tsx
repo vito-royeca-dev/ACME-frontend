@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 
-import { Tunnel } from '../../types';
+import { Tunnel } from '../../types/types';
 import TunnelModal from '../modals/TunnelModal';
 import { deleteTunnel, fetchTunnels } from '../../lib/apis';
 import { useAlert } from '../../context/AlertContext';
