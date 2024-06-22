@@ -26,8 +26,6 @@ const ShowUsers = () => {
       credits: number 
     }
   ) => {
-    console.log("update credit");
-
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
         user.userId === _id ? { ...user, userCredits: credits } : user
@@ -36,19 +34,20 @@ const ShowUsers = () => {
   };
   
   const locationUpdateListener = (
-    { userId, location }: 
+    { userId, location, distance }: 
     { userId: string, 
+      distance: number,
       location: { 
         longitude: number, 
         latitude: number 
       } 
     }
   ) => {
-    console.log("update location");
+    const update = new Date().getDate() === selectedDate.getDate();
     
     setUsers((prevUsers) =>
       prevUsers.map((user) =>
-        user.userId === userId ? { ...user, userLocation: location } : user
+        user.userId === userId ? { ...user, userLocation: location, totalDistance: (update ? user.totalDistance + distance : user.totalDistance)  } : user
       )
     );
   };
@@ -99,7 +98,7 @@ const ShowUsers = () => {
                 <Td text={user.userName}/>
                 <Td text={user.userEmail}/>
                 <Td text={user.userCredits}/>
-                <Td text={user.totalDistance}/>
+                <Td text={user.totalDistance.toFixed(2)}/>
                 <Td text={`LNG: ${user.userLocation.longitude.toFixed(2)} | LAT: ${user.userLocation.latitude.toFixed(2)}`}/>
               </tr>
             ))}

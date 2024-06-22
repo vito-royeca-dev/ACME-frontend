@@ -35,7 +35,7 @@ instance.interceptors.response.use(
     },
     (err: AxiosError) => {
         if (err?.message === "Unauthorized: Invalid token") {
-            localStorage.removeItem('token');
+            localStorage.clear();
         }
         return Promise.reject(err);
     }
