@@ -139,7 +139,7 @@ export const checkRoute = async (startCoords: [number, number], endCoords: [numb
       return [];
     }
 };
-  
+
 export const fetchUsers = async (callback: Dispatch<SetStateAction<Tunnel[]>>) => {
     try {
       const response = await instance.get('/api/tunnels');
