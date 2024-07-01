@@ -1,7 +1,7 @@
 interface DataTableProps<T> {
   data: T[];
   columns: { key: keyof T, label: string }[];
-  onEdit: (item: T) => void;
+  onEdit?: (item: T) => void;
   onDelete: (id: string) => void;
 }
 
@@ -22,7 +22,7 @@ const DataTable = <T extends { id: string }>({ data, columns, onEdit, onDelete }
             <td key={String(column.key)} className="py-2 px-4 border-b border-gray-200">{String(item[column.key])}</td>
           ))}
           <td className="py-2 px-4 border-b border-gray-200">
-            <button onClick={() => onEdit(item)} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">Edit</button>
+            {onEdit && <button onClick={() => onEdit(item)} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">Edit</button>}
             <button onClick={() => onDelete(item.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
           </td>
         </tr>

@@ -24,6 +24,13 @@ export interface Zone {
     credits: number;
 }
 
+export interface Message {
+    id: string;
+    title: string;
+    body: string;
+    credits: number;
+}
+
 export interface LoginFormInputs {
     username: string;
     password: string;

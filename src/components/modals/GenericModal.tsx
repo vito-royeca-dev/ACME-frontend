@@ -30,7 +30,7 @@ const GenericModal: React.FC<Props> = ({ isOpen, onClose, onSave, title, childre
 
   return (
     <div className={`fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center ${isOpen ? '' : 'hidden'}`}>
-      <div ref={modalRef} className="bg-white rounded-lg p-8 w-full max-w-2xl mx-4">
+      <div ref={modalRef} className="bg-white rounded-lg p-8 w-full max-w-2xl mx-4 modal-body">
         <h2 className="text-2xl font-bold mb-4">{title}</h2>
         {children}
         <div className="flex justify-end mt-4">

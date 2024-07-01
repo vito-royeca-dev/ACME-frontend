@@ -2,6 +2,7 @@ import { Route, NavLink, Routes } from 'react-router-dom';
 
 import AddTunnel from '../components/panels/TunnelManage.tsx';
 import AddZone from '../components/panels/ZoneManage.tsx';
+import AddMessage from '../components/panels/MessageManage.tsx';
 import ShowUsers from '../components/panels/ShowUsers.tsx';
 import MapPage from '../components/panels/MapBox.tsx';
 
@@ -22,6 +23,9 @@ const AdminDashboard = () => {
             <NavLink to="/admin/zone" className="block px-4 py-2 hover:bg-gray-700">
               Zones
             </NavLink>
+            <NavLink to="/admin/message" className="block px-4 py-2 hover:bg-gray-700">
+              Messages
+            </NavLink>
             <NavLink to="/admin/map" className="block px-4 py-2 hover:bg-gray-700">
               MapBox
             </NavLink>
@@ -32,6 +36,7 @@ const AdminDashboard = () => {
             <Route path="/" element={<ShowUsers />} />
             <Route path="/tunnel" element={<AddTunnel />} />
             <Route path="/zone" element={<AddZone />} />
+            <Route path="/message" element={<AddMessage />} />
             <Route path="/map" element={<MapPage />} />
           </Routes>
         </main>

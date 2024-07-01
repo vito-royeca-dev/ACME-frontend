@@ -1,5 +1,5 @@
 import Axios, {AxiosResponse, AxiosError} from "axios";
-import { Tunnel, User, Zone } from "../types/dataTypes";
+import { Message, Tunnel, User, Zone } from "../types/dataTypes";
 import { LoginFormInputs } from "../types/dataTypes";
 import { Dispatch, SetStateAction } from "react";
 
@@ -75,6 +75,22 @@ export const postTunnel = async (data: Tunnel) => {
 export const deleteTunnel = async (id: string) => {
     await instance.delete(`/api/tunnels/${id}`);
 }
+export const fetchMessages = async (callback: Dispatch<SetStateAction<Message[]>>) => {
+    try {
+        const response = await instance.get('/api/messages');
+        callback(ProcessedRecords<{ _id: string }, Message>(response.data));
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+    }
+};
+
+export const postMessage = async (data: Message) => {
+    return await instance.post('/api/messages', data);
+}
+
+export const deleteMessage = async (id: string) => {
+    await instance.delete(`/api/messages/${id}`);
+}
 
 export const fetchZones = async (callback: Dispatch<SetStateAction<Zone[]>>) => {
     try {
@@ -84,6 +100,7 @@ export const fetchZones = async (callback: Dispatch<SetStateAction<Zone[]>>) => 
       console.error('Error fetching zones:', error);
     }
 };
+
 
 export const putZone = async (data: Zone) => {
     return await instance.put(`/api/zones/${data.id}`, data);

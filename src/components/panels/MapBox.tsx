@@ -1,11 +1,11 @@
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-
 import { Tunnel, Zone } from '../../types/dataTypes';
 import { fetchTunnels, fetchZones, getRoute } from '../../lib/apis';
 import { createCircle } from '../../utils/mapbox';
+import { MAP_PK_TOKEN } from '../../constants';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibWlrZWthbGUiLCJhIjoiY2x4Z2JsdzZiMTIzbjJrcHdxbDNhdTgzZSJ9.BSu0Xe1lgIgxULBXXQlEBQ';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default function App() {
   const mapContainer = useRef(null);
@@ -15,19 +15,20 @@ export default function App() {
   const [zoom, setZoom] = useState(9);
   const [tunnels, setTunnels] = useState<Tunnel[]>([]);
   const [zones, setZones] = useState<Zone[]>([]);
-
+  
   const fetchData = async () => {
     fetchTunnels(setTunnels);
     fetchZones(setZones);
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
+    }
+    
+    useEffect(() => {
+      mapboxgl.accessToken = MAP_PK_TOKEN;
+      fetchData();
+    }, []);
+      
+    useEffect(() => {
+      // if (tunnels.length < 1 || zones.length < 1) return;
     if (map.current) return; // initialize map only once
-    if (tunnels.length < 1 || zones.length < 1) return;
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
